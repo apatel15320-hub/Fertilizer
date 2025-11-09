@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TerraGrow Solutions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+        .page-content {
+            min-height: calc(100vh - 80px);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 80px;
+            transition: opacity 0.5s ease-in-out;
+            padding-bottom: 2rem;
+        }
+        .page-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            border-radius: 1rem;
+            padding: 2rem;
+            color: white;
+            max-width: 95%;
+            margin-top: 5rem;
+            margin-bottom: 2rem;
+        }
+        .nav-link.active {
+            @apply bg-green-700 text-white;
+        }
+        .hidden-page {
+            display: none;
+        }
+        .visible-page {
+            display: flex;
+        }
+        .content-card {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 1rem;
+            padding: 2rem;
+            color: #333;
+            max-width: 95%;
+            margin: 2rem auto;
+            text-align: left;
+        }
+        .shopping-cart-modal {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: -4px 0 10px rgba(0,0,0,0.1);
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            z-index: 100;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .shopping-cart-modal.open {
+            transform: translateX(0);
+        }
+        .shopping-cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+            display: none;
+        }
+        .shopping-cart-overlay.open {
+            display: block;
+        }
+        .product-card {
+            background-color: #f0fdf4;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+    <!-- Navigation Header -->
+    <header class="bg-white shadow-lg fixed top-0 left-0 right-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row justify-between items-center">
+            <div class="flex items-center space-x-2 text-2xl font-bold text-green-800">
+                <!-- Simple Leaf Logo SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12 21.35c-5.83-5.59-8.33-10.03-8.33-13.88 0-3.33 2.67-6 6-6 1.83 0 3.5.83 4.5 2.17 1-1.34 2.67-2.17 4.5-2.17 3.33 0 6 2.67 6 6 0 3.85-2.5 8.29-8.33 13.88a1 1 0 0 1-1.34 0z" clip-rule="evenodd" />
+                    <path fill="#4CAF50" d="M12 21.35c-5.83-5.59-8.33-10.03-8.33-13.88 0-3.33 2.67-6 6-6 1.83 0 3.5.83 4.5 2.17 1-1.34 2.67-2.17 4.5-2.17 3.33 0 6 2.67 6 6 0 3.85-2.5 8.29-8.33 13.88a1 1 0 0 1-1.34 0z" />
+                </svg>
+                <span>TerraGrow Solutions</span>
+            </div>
+            <div id="nav-links" class="flex flex-wrap justify-center sm:justify-end gap-2 mt-2 sm:mt-0 text-sm md:text-base">
+                <button data-page="home" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Home</button>
+                <button data-page="products" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Products</button>
+                <button data-page="organic" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Organic</button>
+                <button data-page="soil-health" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Soil Health</button>
+                <button data-page="contact" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Contact Us</button>
+                <button data-page="faq" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">FAQ</button>
+                <button data-page="about" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">About Us</button>
+                <button data-page="blog" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Blog</button>
+                <button data-page="delivery" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Delivery</button>
+                <button data-page="sustainability" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Sustainability</button>
+                <button data-page="careers" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Careers</button>
+                <button data-page="testimonials" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Testimonials</button>
+                <button data-page="resources" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Resources</button>
+                <button data-page="wholesale" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Wholesale</button>
+                <button data-page="privacy" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Privacy</button>
+                <button id="cart-icon" class="relative px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.182 1.942.857 2.578A6.842 6.842 0 0017 18a6.842 6.842 0 005.464-2.129c1.039-.636 1.488-1.948.857-2.578L17 13M12 18h.01"></path>
+                    </svg>
+                    <span id="cart-count" class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">0</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Shopping Cart Modal -->
+    <div id="shopping-cart-modal" class="shopping-cart-modal">
+        <div class="flex justify-between items-center p-4 border-b">
+            <h3 class="text-2xl font-bold">Shopping Cart</h3>
+            <button id="close-cart-btn" class="text-gray-500 hover:text-gray-800 focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <div id="cart-items" class="flex-grow p-4 overflow-y-auto">
+            <!-- Cart items will be rendered here -->
+        </div>
+        <div class="p-4 border-t">
+            <div class="flex justify-between items-center text-xl font-bold mb-4">
+                <span>Total:</span>
+                <span id="cart-total">₹0.00</span>
+            </div>
+            <button class="w-full px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors">Checkout</button>
+        </div>
+    </div>
+    <div id="shopping-cart-overlay" class="shopping-cart-overlay"></div>
+
+    <!-- Main Content Pages -->
+    <main class="flex-grow pt-20">
+        <!-- Page 1: Home -->
+        <section id="home-page" class="page-content visible-page" style="background-image: url('https://images.unsplash.com/photo-1577782352126-7243958d20ae?q=80&w=2670&auto=format&fit=crop');">
+            <div class="page-overlay">
+                <h1 class="text-5xl md:text-7xl font-bold mb-4">Welcome to TerraGrow Solutions</h1>
+                <p class="text-xl md:text-2xl">Your partner in sustainable agriculture and thriving gardens.</p>
+                <a href="#products" data-page="products" class="nav-link mt-8 inline-block px-8 py-4 bg-green-600 text-white font-bold rounded-full shadow-lg hover:bg-green-800 transition-colors">Explore Products</a>
+            </div>
+        </section>
+
+        <!-- Page 2: Products -->
+        <section id="products-page" class="page-content hidden-page" style="background-image: url('https://images.unsplash.com/photo-1620677567702-861c8a16709d?q=80&w=2670&auto=format&fit=crop');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-8">Our Premium Product Line</h2>
+                <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Products will be dynamically generated here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 3: Organic -->
+        <section id="organic-page" class="page-content hidden-page" style="background-image: url('https://images.unsplash.com/photo-1621251996160-c335836c2e71?q=80&w=2670&auto=format&fit=crop');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Our Organic Commitment</h2>
+                <p class="text-lg md:text-xl mb-4">TerraGrow Solutions is passionate about sustainable agriculture. Our organic line is crafted with natural, biodegradable ingredients that work with the ecosystem, not against it.</p>
+                <ul class="list-disc list-inside text-lg text-left mx-auto max-w-lg space-y-2">
+                    <li>Certified organic and non-GMO.</li>
+                    <li>Improves soil structure and water retention.</li>
+                    <li>Safe for pets and children.</li>
+                    <li>Promotes long-term soil health.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Page 4: Soil Health -->
+        <section id="soil-health-page" class="page-content hidden-page" style="background-image: url('https://images.unsplash.com/photo-1542451000-0259b369c0d9?q=80&w=2671&auto=format&fit=crop');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">The Foundation of All Growth</h2>
+                <div class="content-card">
+                    <p class="text-lg md:text-xl">Healthy soil is the bedrock of a successful garden or farm. It's a living ecosystem teeming with beneficial microorganisms that help plants absorb nutrients. Our soil health products are designed to:</p>
+                    <ul class="list-disc list-inside mt-4 space-y-2">
+                        <li>Increase organic matter.</li>
+                        <li>Enhance microbial activity.</li>
+                        <li>Balance pH levels.</li>
+                        <li>Prevent soil compaction.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 5: Contact -->
+        <section id="contact-page" class="page-content hidden-page" style="background-image: url('https://images.unsplash.com/photo-1628312061225-b01c3e9868f0?q=80&w=2670&auto=format&fit=crop');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Get in Touch with Our Experts</h2>
+                <form class="bg-white p-8 rounded-lg shadow-lg text-gray-800 max-w-md mx-auto space-y-4">
+                    <input type="text" placeholder="Your Name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <input type="email" placeholder="Your Email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <textarea placeholder="Your Message" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"></textarea>
+                    <button type="submit" class="w-full px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors">Send Message</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Page 6: FAQ -->
+        <section id="faq-page" class="page-content hidden-page" style="background-image: url('https://images.unsplash.com/photo-1598236162357-190b43534b86?q=80&w=2670&auto=format&fit=crop');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Frequently Asked Questions</h2>
+                <div class="content-card text-left max-w-xl mx-auto space-y-6">
+                    <div>
+                        <h4 class="font-bold text-lg">Q: What is the best fertilizer for my lawn?</h4>
+                        <p class="mt-2 text-gray-700">A: For a lush green lawn, we recommend our Lawn Growth Booster. It's a balanced formula with a high nitrogen content for vibrant leaf growth.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg">Q: Are your products safe for pets?</h4>
+                        <p class="mt-2 text-gray-700">A: Yes, our organic line is completely safe for pets and children. For our conventional products, we recommend following the instructions on the label and keeping them out of reach.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg">Q: How long does delivery take?</h4>
+                        <p class="mt-2 text-gray-700">A: We offer standard delivery within 3-5 business days and express delivery for an additional fee. You'll receive a tracking number once your order is shipped.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Page 7: About Us -->
+        <section id="about-page" class="page-content hidden-page" style="background-image: url('https://images.unsplash.com/photo-1517457371891-667746146c83?q=80&w=2670&auto=format&fit=crop');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Our Story</h2>
+                <div class="content-card">
+                    <p class="text-lg md:text-xl">Founded by a team of agricultural experts, TerraGrow Solutions was born out of a passion for sustainable farming. We believe that by nurturing the soil, we can cultivate healthier plants and a healthier planet. Our mission is to empower gardeners and farmers with the best tools for growth, from our high-quality fertilizers to our expert advice.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 8: Blog -->
+        <section id="blog-page" class="page-content hidden-page" style="background-image: url('https://images.unsplash.com/photo-1533228100854-722a9447e113?q=80&w=2670&auto=format&fit=crop');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">From Our Blog</h2>
+                <div class="content-card max-w-2xl mx-auto">
+                    <div class="space-y-4">
+                        <div class="border-b pb-4">
+                            <h3 class="font-bold text-xl">The Ultimate Guide to Composting</h3>
+                            <p class="text-gray-700">Learn how to create your own nutrient-rich compost at home. It's easier than you think!</p>
+                            <a href="#" class="text-green-600 hover:underline">Read more...</a>
+                        </div>
+                        <div class="border-b pb-4">
+                            <h3 class="font-bold text-xl">5 Common Garden Pests and How to Deal with Them</h3>
+                            <p class="text-gray-700">A quick guide to identifying and treating common garden invaders using organic methods.</p>
+                            <a href="#" class="text-green-600 hover:underline">Read more...</a>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-xl">Choosing the Right Fertilizer for Your Crops</h3>
+                            <p class="text-gray-700">Our expert guide breaks down fertilizer types and helps you select the perfect one for your specific needs.</p>
+                            <a href="#" class="text-green-600 hover:underline">Read more...</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Page 9: Delivery -->
+        <section id="delivery-page" class="page-content hidden-page" style="background-image: url('https://images.unsplash.com/photo-1563294339-e935409d57a4?q=80&w=2670&auto=format&fit=crop');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Our Delivery Promise</h2>
+                <div class="content-card">
+                    <p class="text-lg md:text-xl">We understand that timely delivery is crucial for your projects. We've partnered with reliable shipping providers to ensure your order arrives quickly and safely. You can track your order status in real-time right from your account. We also offer local pickup options for select areas to minimize our carbon footprint.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 10: Sustainability -->
+        <section id="sustainability-page" class="page-content hidden-page" style="background-image: url('https://images.unsplash.com/photo-1518175249110-38501235b244?q=80&w=2670&auto=format&fit=crop');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Our Commitment to Earth</h2>
+                <div class="content-card">
+                    <p class="text-lg md:text-xl">At TerraGrow Solutions, we're not just about growth; we're about sustainable growth. Our commitment to the environment includes using eco-friendly packaging, reducing waste in our production process, and developing products that improve soil health without harming the planet.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 11: Careers -->
+        <section id="careers-page" class="page-content hidden-page" style="background-image: url('https://images.unsplash.com/photo-1549419137-779836585122?q=80&w=2670&auto=format&fit=crop');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Grow Your Career with Us</h2>
+                <div class="content-card">
+                    <p class="text-lg md:text-xl">Are you passionate about agriculture and sustainability? We are always looking for talented individuals to join our team. We offer competitive salaries, a supportive work environment, and opportunities for professional development.</p>
+                    <p class="mt-4 text-gray-700">Please send your resume to careers@terragrow.com with the position you are interested in.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 12: Testimonials -->
+        <section id="testimonials-page" class="page-content hidden-page" style="background-image: url('https://images.unsplash.com/photo-1590740673397-96a84c7f0535?q=80&w=2670&auto=format&fit=crop');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">What Our Customers Say</h2>
+                <div class="content-card max-w-xl mx-auto space-y-6">
+                    <div class="border-b pb-4">
+                        <p class="italic text-gray-700">"TerraGrow's soil booster transformed my vegetable garden. I've never seen such healthy and productive plants!"</p>
+                        <p class="font-bold text-sm mt-2">- Jane D., Urban Gardener</p>
+                    </div>
+                    <div class="border-b pb-4">
+                        <p class="italic text-gray-700">"We switched to their organic line and saw a noticeable improvement in our crop yield and quality. Great products and excellent customer service."</p>
+                        <p class="font-bold text-sm mt-2">- Mark R., Farmer</p>
+                    </div>
+                    <div>
+                        <p class="italic text-gray-700">"Their expert advice helped me choose the perfect fertilizer. My flowers are absolutely stunning this year!"</p>
+                        <p class="font-bold text-sm mt-2">- Emily P., Landscaper</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Page 13: Resources -->
+        <section id="resources-page" class="page-content hidden-page" style="background-image: url('https://images.unsplash.com/photo-1596700816223-2895f32a265d?q=80&w=2670&auto=format&fit=crop');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Helpful Resources</h2>
+                <div class="content-card">
+                    <p class="text-lg md:text-xl">We offer a range of free resources to help you on your farming and gardening journey. Check out our detailed guides and video tutorials below.</p>
+                    <div class="mt-6 text-left space-y-2">
+                        <a href="#" class="text-green-600 hover:underline font-semibold text-lg block">Download: The Beginner's Guide to Fertilizers</a>
+                        <a href="#" class="text-green-600 hover:underline font-semibold text-lg block">Video: How to Test Your Soil's pH Level</a>
+                        <a href="#" class="text-green-600 hover:underline font-semibold text-lg block">Infographic: NPK Ratios Explained</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 14: Wholesale -->
+        <section id="wholesale-page" class="page-content hidden-page" style="background-image: url('https://images.unsplash.com/photo-1591871239920-5c6d3184a44f?q=80&w=2670&auto=format&fit=crop');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Wholesale Solutions</h2>
+                <div class="content-card">
+                    <p class="text-lg md:text-xl">Are you a commercial grower, a garden center, or a landscaping company? Partner with us for exclusive wholesale pricing and dedicated account support. We can provide large-volume orders and customized product solutions to meet your business needs.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 15: Privacy -->
+        <section id="privacy-page" class="page-content hidden-page" style="background-image: url('https://images.unsplash.com/photo-1628120612444-f9d936162255?q=80&w=2670&auto=format&fit=crop');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Privacy Policy</h2>
+                <div class="content-card">
+                    <p class="text-lg md:text-xl">Your privacy is important to us. We are committed to protecting your personal information and being transparent about our data practices. Our policy outlines how we collect, use, and safeguard your data. We do not sell your information to third parties.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <div class="mb-4">
+                <h3 class="text-xl font-semibold mb-2">Contact Us</h3>
+                <p>Email: info@terragrow.com</p>
+                <p>Phone: (123) 456-7890</p>
+            </div>
+            <div class="flex justify-center space-x-4 mb-4">
+                <a href="#" class="hover:text-green-400">Facebook</a>
+                <a href="#" class="hover:text-green-400">Instagram</a>
+                <a href="#" class="hover:text-green-400">Twitter</a>
+            </div>
+            <p>&copy; 2023 TerraGrow Solutions. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page-content');
+            const cartIcon = document.getElementById('cart-icon');
+            const cartModal = document.getElementById('shopping-cart-modal');
+            const closeCartBtn = document.getElementById('close-cart-btn');
+            const cartOverlay = document.getElementById('shopping-cart-overlay');
+            const productListContainer = document.getElementById('product-list');
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotalElement = document.getElementById('cart-total');
+            const cartCountElement = document.getElementById('cart-count');
+
+            let cart = [];
+
+            // Product data array
+            const products = [
+                { id: 1, name: 'Organic Soil Booster', price: 1499, description: 'A nutrient-rich formula to revitalize your soil and promote vigorous plant growth.', imageUrl: 'https://images.unsplash.com/photo-1620677567702-861c8a16709d?q=80&w=2670&auto=format&fit=crop' },
+                { id: 2, name: 'Vegetable & Herb Blend', price: 999, description: 'Specially formulated for edible plants, ensuring a bountiful and delicious harvest.', imageUrl: 'https://images.unsplash.com/photo-1627092170364-e4d0b1d3d623?q=80&w=2670&auto=format&fit=crop' },
+                { id: 3, name: 'Blooming Flower Mix', price: 749, description: 'Enhance the color and size of your flowers with this specialized blooming formula.', imageUrl: 'https://images.unsplash.com/photo-1587635955147-3841a0e44c68?q=80&w=2670&auto=format&fit=crop' },
+                { id: 4, name: 'Lawn Growth Booster', price: 1299, description: 'Creates a lush, green lawn with a professional-grade formula for dense turf.', imageUrl: 'https://images.unsplash.com/photo-1598463870634-11116f3944d1?q=80&w=2670&auto=format&fit=crop' },
+                { id: 5, name: 'Balanced NPK Fertilizer', price: 899, description: 'An all-purpose fertilizer for general plant health and balanced nutrition.', imageUrl: 'https://images.unsplash.com/photo-1520638792078-4361515b8004?q=80&w=2670&auto=format&fit=crop' },
+                { id: 6, name: 'Potassium-Rich Formula', price: 1050, description: 'Essential for flowering and fruiting, this blend ensures strong, healthy produce.', imageUrl: 'https://images.unsplash.com/photo-1549410141-86a073574c3e?q=80&w=2670&auto=format&fit=crop' },
+                { id: 7, name: 'Calcium Nitrate', price: 550, description: 'A fast-acting fertilizer that supplies essential calcium and nitrogen to plants.', imageUrl: 'https://images.unsplash.com/photo-1592683058866-9a25b390a36b?q=80&w=2670&auto=format&fit=crop' },
+                { id: 8, name: 'Azotobacter Biofertilizer', price: 650, description: 'A nitrogen-fixing biofertilizer that improves soil fertility naturally.', imageUrl: 'https://images.unsplash.com/photo-1592759929286-9a296b05423f?q=80&w=2670&auto=format&fit=crop' },
+                { id: 9, name: 'Phosphate Solubilizing Bacteria', price: 700, description: 'Enhances phosphorus uptake by plants, crucial for root development.', imageUrl: 'https://images.unsplash.com/photo-1528643598762-b131825121b6?q=80&w=2670&auto=format&fit=crop' },
+                { id: 10, name: 'Humic Acid Liquid', price: 1800, description: 'Improves nutrient absorption and soil structure with a powerful humic acid concentrate.', imageUrl: 'https://images.unsplash.com/photo-1544026521-143093c44247?q=80&w=2670&auto=format&fit=crop' },
+                { id: 11, name: 'Seaweed Extract', price: 1150, description: 'A natural plant growth stimulant with a rich blend of micronutrients.', imageUrl: 'https://images.unsplash.com/photo-1563294339-e935409d57a4?q=80&w=2670&auto=format&fit=crop' },
+                { id: 12, name: 'Mycorrhizal Fungi', price: 950, description: 'Forms a symbiotic relationship with plant roots to expand their nutrient reach.', imageUrl: 'https://images.unsplash.com/photo-1599818451886-f4044a6f29a0?q=80&w=2670&auto=format&fit=crop' },
+                { id: 13, name: 'Coco Coir Bricks', price: 450, description: 'An eco-friendly, soilless growing medium with excellent water retention.', imageUrl: 'https://images.unsplash.com/photo-1598463870634-11116f3944d1?q=80&w=2670&auto=format&fit=crop' },
+                { id: 14, name: 'Vermicompost', price: 800, description: 'The ultimate organic fertilizer, created by earthworms to enrich your soil.', imageUrl: 'https://images.unsplash.com/photo-1627092170364-e4d0b1d3d623?q=80&w=2670&auto=format&fit=crop' },
+                { id: 15, name: 'Gypsum Granules', price: 600, description: 'Improves clay soil structure and provides essential calcium and sulfur.', imageUrl: 'https://images.unsplash.com/photo-1606888200630-f8d2b27a3c31?q=80&w=2670&auto=format&fit=crop' },
+                
+            ];
+
+            // Function to show the selected page
+            const showPage = (pageId) => {
+                // Hide all pages
+                pages.forEach(page => {
+                    page.classList.remove('visible-page');
+                    page.classList.add('hidden-page');
+                });
+                
+                // Show the target page
+                const targetPage = document.getElementById(pageId + '-page');
+                if (targetPage) {
+                    targetPage.classList.remove('hidden-page');
+                    targetPage.classList.add('visible-page');
+                }
+                
+                // Update active link
+                navLinks.forEach(link => {
+                    if (link.dataset.page === pageId) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            };
+
+            // Function to open the shopping cart modal
+            const openCart = () => {
+                cartModal.classList.add('open');
+                cartOverlay.classList.add('open');
+            };
+
+            // Function to close the shopping cart modal
+            const closeCart = () => {
+                cartModal.classList.remove('open');
+                cartOverlay.classList.remove('open');
+            };
+
+            // Function to render cart items
+            const renderCart = () => {
+                cartItemsContainer.innerHTML = '';
+                let total = 0;
+
+                if (cart.length === 0) {
+                    cartItemsContainer.innerHTML = '<p class="text-center text-gray-500">Your cart is empty.</p>';
+                } else {
+                    cart.forEach(item => {
+                        const itemElement = document.createElement('div');
+                        itemElement.classList.add('flex', 'justify-between', 'items-center', 'py-2', 'border-b');
+                        itemElement.innerHTML = `
+                            <span>${item.name} (${item.quantity})</span>
+                            <span>₹${(item.price * item.quantity).toFixed(2)}</span>
+                        `;
+                        cartItemsContainer.appendChild(itemElement);
+                        total += item.price * item.quantity;
+                    });
+                }
+                
+                cartTotalElement.textContent = `₹${total.toFixed(2)}`;
+                cartCountElement.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+            };
+
+            // Add item to cart function
+            const addToCart = (product) => {
+                const existingItem = cart.find(item => item.id === product.id);
+
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({ ...product, quantity: 1 });
+                }
+                
+                renderCart();
+            };
+
+            // Function to render products dynamically
+            const renderProducts = () => {
+                productListContainer.innerHTML = '';
+                products.forEach(product => {
+                    const productCard = document.createElement('div');
+                    productCard.classList.add('product-card', 'text-gray-800', 'rounded-lg', 'shadow-lg');
+                    productCard.innerHTML = `
+                        <img src="${product.imageUrl}" alt="${product.name}" class="w-full h-48 object-cover rounded-md mb-4">
+                        <h3 class="text-2xl font-semibold mb-2">${product.name}</h3>
+                        <p class="text-gray-600">${product.description}</p>
+                        <p class="mt-4 text-xl font-bold text-green-700">₹${product.price.toFixed(2)}</p>
+                        <button class="add-to-cart-btn mt-4 w-full bg-green-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-700 transition-colors" data-product-id="${product.id}">Add to Cart</button>
+                    `;
+                    productListContainer.appendChild(productCard);
+                });
+
+                // Attach event listeners to new buttons
+                document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const productId = parseInt(event.target.dataset.productId);
+                        const product = products.find(p => p.id === productId);
+                        if (product) {
+                            addToCart(product);
+                        }
+                    });
+                });
+            };
+
+            // Add click listeners to navigation links
+            navLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    const pageId = event.target.dataset.page;
+                    showPage(pageId);
+                });
+            });
+            
+            // Add event listeners for shopping cart
+            cartIcon.addEventListener('click', openCart);
+            closeCartBtn.addEventListener('click', closeCart);
+            cartOverlay.addEventListener('click', closeCart);
+
+            // Initial setup
+            showPage('home');
+            renderProducts();
+            renderCart();
+        });
+    </script>
+</body>
+</html>

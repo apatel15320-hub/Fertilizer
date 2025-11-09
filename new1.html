@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shreenathji Group of Fertilizers</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .hidden-page { display: none; }
+    .visible-page { display: block; }
+    .cart-modal { transition: all 0.3s ease-in-out; transform: translateX(100%); }
+    .cart-modal.open { transform: translateX(0); }
+    .cart-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 40; }
+    .cart-overlay.open { display: block; }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+
+  <!-- Navbar -->
+  <nav class="bg-green-600 p-4 flex justify-between items-center">
+    <h1 class="text-white font-bold text-xl">Shreenathji Group of Fertilizers</h1>
+    <ul class="flex space-x-4 text-white font-semibold">
+      <li><a href="#" class="nav-link" data-page="home">Home</a></li>
+      <li><a href="#" class="nav-link" data-page="about">About</a></li>
+      <li><a href="#" class="nav-link" data-page="products">Products</a></li>
+      <li><a href="#" class="nav-link" data-page="services">Services</a></li>
+      <li><a href="#" class="nav-link" data-page="contact">Contact</a></li>
+      <li><a href="#" id="cart-icon" class="relative">🛒<span id="cart-count" class="absolute -top-2 -right-2 bg-red-600 text-xs rounded-full px-1">0</span></a></li>
+    </ul>
+  </nav>
+
+  <!-- Pages -->
+  <main class="p-6">
+    <!-- Home Page -->
+    <section id="home-page" class="visible-page">
+      <div class="h-screen flex items-center justify-center text-center text-white relative" 
+        style="background-image: url('https://images.pexels.com/photos/158827/farmer-harvest-corn-agriculture-158827.jpeg'); background-size: cover; background-position: center;">
+        <div class="bg-black bg-opacity-50 p-10 rounded-xl">
+          <h1 class="text-5xl font-extrabold mb-6">Welcome to Shreenathji Group of Fertilizers</h1>
+          <p class="text-lg mb-6">Nourishing Crops, Enriching Lives</p>
+          <a href="#" data-page="products" class="px-6 py-3 bg-green-600 rounded-lg hover:bg-green-700 transition">Shop Now</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Page -->
+    <section id="about-page" class="hidden-page">
+      <h2 class="text-3xl font-bold mb-4">About Us</h2>
+      <p>We are a leading fertilizer company committed to sustainable agriculture.</p>
+    </section>
+
+    <!-- Products Page -->
+    <section id="products-page" class="hidden-page">
+      <h2 class="text-3xl font-bold mb-4">Our Products</h2>
+      <div id="product-list" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+    </section>
+
+    <!-- Services Page -->
+    <section id="services-page" class="hidden-page">
+      <h2 class="text-3xl font-bold mb-4">Our Services</h2>
+      <p>We provide soil testing, crop consultancy, and organic solutions.</p>
+    </section>
+
+    <!-- Contact Page -->
+    <section id="contact-page" class="hidden-page">
+      <h2 class="text-3xl font-bold mb-4">Contact Us</h2>
+      <p>Email: info@shreenathjigroup.com | Phone: +91 9876543210</p>
+    </section>
+
+    <!-- Other Pages -->
+    <section id="checkout-page" class="hidden-page"><h2>Checkout</h2></section>
+    <section id="faqs-page" class="hidden-page"><h2>FAQs</h2></section>
+    <section id="blog-page" class="hidden-page"><h2>Blog</h2></section>
+    <section id="careers-page" class="hidden-page"><h2>Careers</h2></section>
+    <section id="testimonials-page" class="hidden-page"><h2>Testimonials</h2></section>
+    <section id="gallery-page" class="hidden-page"><h2>Gallery</h2></section>
+    <section id="offers-page" class="hidden-page"><h2>Offers</h2></section>
+    <section id="policies-page" class="hidden-page"><h2>Policies</h2></section>
+    <section id="support-page" class="hidden-page"><h2>Support</h2></section>
+  </main>
+
+  <!-- Cart Modal -->
+  <div id="cart-overlay" class="cart-overlay"></div>
+  <div id="cart-modal" class="cart-modal fixed top-0 right-0 w-96 h-full bg-white shadow-lg z-50 p-6">
+    <h2 class="text-2xl font-bold mb-4">Your Cart</h2>
+    <div id="cart-items"></div>
+    <p class="font-bold mt-4">Total: <span id="cart-total">₹0</span></p>
+    <button id="close-cart" class="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg">Close</button>
+  </div>
+
+  <script>
+    // Product Data
+    const products = [
+      { id: 1, name: "Organic Fertilizer", description: "Eco-friendly natural fertilizer for healthy crops.", price: 500, imageUrl: "https://images.pexels.com/photos/7780879/pexels-photo-7780879.jpeg" },
+      { id: 2, name: "Nitrogen Fertilizer", description: "Boosts crop growth with nitrogen-rich formula.", price: 650, imageUrl: "https://images.pexels.com/photos/8845072/pexels-photo-8845072.jpeg" },
+      { id: 3, name: "Phosphate Fertilizer", description: "Ensures stronger roots and higher yields.", price: 700, imageUrl: "https://images.pexels.com/photos/7780876/pexels-photo-7780876.jpeg" },
+      { id: 4, name: "Potash Fertilizer", description: "Improves drought resistance and crop quality.", price: 550, imageUrl: "https://images.pexels.com/photos/8845071/pexels-photo-8845071.jpeg" },
+      { id: 5, name: "Bio Compost", description: "100% natural compost for organic farming.", price: 400, imageUrl: "https://images.pexels.com/photos/13065464/pexels-photo-13065464.jpeg" }
+    ];
+
+    // Elements
+    const navLinks = document.querySelectorAll('.nav-link');
+    const pages = document.querySelectorAll('main section');
+    const productListContainer = document.getElementById('product-list');
+    const cartIcon = document.getElementById('cart-icon');
+    const cartCountElement = document.getElementById('cart-count');
+    const cartModal = document.getElementById('cart-modal');
+    const cartOverlay = document.getElementById('cart-overlay');
+    const closeCartBtn = document.getElementById('close-cart');
+    const cartItemsContainer = document.getElementById('cart-items');
+    const cartTotalElement = document.getElementById('cart-total');
+
+    let cart = [];
+
+    // Navigation
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        const targetPage = link.dataset.page + '-page';
+        pages.forEach(page => page.classList.add('hidden-page'));
+        document.getElementById(targetPage).classList.remove('hidden-page');
+        navLinks.forEach(nav => nav.classList.remove('bg-green-700', 'text-white'));
+        link.classList.add('bg-green-700', 'text-white');
+      });
+    });
+
+    // Render Products
+    function renderProducts() {
+      productListContainer.innerHTML = '';
+      products.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.className = "bg-white p-4 shadow rounded";
+        productCard.innerHTML = `
+          <img src="${product.imageUrl}" alt="${product.name}" class="w-full h-40 object-cover rounded mb-4">
+          <h3 class="text-xl font-bold mb-2">${product.name}</h3>
+          <p class="text-gray-700 mb-2">${product.description}</p>
+          <p class="text-black font-semibold mb-4">₹${product.price}</p>
+          <button data-id="${product.id}" class="add-to-cart px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Add to Cart</button>
+        `;
+        productListContainer.appendChild(productCard);
+      });
+    }
+    renderProducts();
+
+    // Update Cart
+    function updateCart() {
+      cartItemsContainer.innerHTML = '';
+      let total = 0;
+      cart.forEach(item => {
+        total += item.price * item.quantity;
+        cartItemsContainer.innerHTML += `
+          <div class="flex justify-between items-center mb-4">
+            <div>
+              <h4 class="font-bold">${item.name}</h4>
+              <p class="text-gray-600">₹${item.price} × ${item.quantity}</p>
+            </div>
+            <button class="remove-item text-red-500" data-id="${item.id}">Remove</button>
+          </div>
+        `;
+      });
+      cartTotalElement.textContent = `₹${total.toFixed(2)}`;
+      cartCountElement.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+    }
+
+    // Cart Buttons
+    document.addEventListener('click', e => {
+      if (e.target.classList.contains('add-to-cart')) {
+        const id = parseInt(e.target.dataset.id);
+        const product = products.find(p => p.id === id);
+        const existing = cart.find(item => item.id === id);
+        if (existing) { existing.quantity++; }
+        else { cart.push({ ...product, quantity: 1 }); }
+        updateCart();
+      }
+      if (e.target.classList.contains('remove-item')) {
+        const id = parseInt(e.target.dataset.id);
+        cart = cart.filter(item => item.id !== id);
+        updateCart();
+      }
+    });
+
+    // Cart Modal Toggle
+    cartIcon.addEventListener('click', () => { cartModal.classList.add('open'); cartOverlay.classList.add('open'); });
+    closeCartBtn.addEventListener('click', () => { cartModal.classList.remove('open'); cartOverlay.classList.remove('open'); });
+    cartOverlay.addEventListener('click', () => { cartModal.classList.remove('open'); cartOverlay.classList.remove('open'); });
+  </script>
+</body>
+</html>

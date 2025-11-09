@@ -1,0 +1,72 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+/* Background images per page */
+.home-bg {
+    background: url('https://images.unsplash.com/photo-1564510714747-69c3bc1fabf2') no-repeat center center/cover;
+}
+.about-bg {
+    background: url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6') no-repeat center center/cover;
+}
+.products-bg {
+    background: url('https://images.unsplash.com/photo-1519669556878-63bdad8a1a06') no-repeat center center/cover;
+}
+/* You can add more for each page */
+
+/* Navbar */
+header {
+    background: rgba(0,0,0,0.7);
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+}
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+nav h1 {
+    font-size: 20px;
+}
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+}
+nav ul li a.active, nav ul li a:hover {
+    background: #4a752c;
+    border-radius: 5px;
+}
+
+/* Hero section */
+.hero {
+    text-align: center;
+    padding: 100px 20px;
+    background: rgba(0,0,0,0.4);
+}
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #f4a261;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+/* Footer */
+footer {
+    background: rgba(0,0,0,0.7);
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+}
+

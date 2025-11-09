@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Photo Gallery with Flex</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: sans-serif;
+      background: #fafafa;
+    }
+
+    .gallery-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .photo {
+      flex: 1 1 calc(25% - 20px); 
+      max-width: calc(25% - 20px);
+      box-sizing: border-box;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+
+    .photo img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .photo img:hover {
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 768px) {
+      .photo {
+        flex: 1 1 calc(50% - 20px);
+        max-width: calc(50% - 20px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .photo {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center;">Responsive Photo Gallery using Flex</h2>
+  <div class="gallery-container">
+    <div class="photo"><img src="img.jpg" alt="Gallery 1"></div>
+    <div class="photo"><img src="img.jpg" alt="Gallery 2"></div>
+    <div class="photo"><img src="img.jpg" alt="Gallery 3"></div>
+    <div class="photo"><img src="img.jpg" alt="Gallery 4"></div>
+    <div class="photo"><img src="img.jpg" alt="Gallery 5"></div>
+    <div class="photo"><img src="img.jpg" alt="Gallery 6"></div>
+    <div class="photo"><img src="img.jpg" alt="Gallery 7"></div>
+    <div class="photo"><img src="img.jpg" alt="Gallery 8"></div>
+  </div>
+</body>
+</html>

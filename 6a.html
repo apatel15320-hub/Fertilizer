@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Photo Gallery with Flex</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: sans-serif;
+      background: #fafafa;
+    }
+
+    .gallery-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .photo {
+      flex: 1 1 calc(25% - 20px); 
+      max-width: calc(25% - 20px);
+      box-sizing: border-box;
+      overflow: hidden;
+      border-radius: 10px;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .photo img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .photo img:hover {
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 768px) {
+      .photo {
+        flex: 1 1 calc(50% - 20px);
+        max-width: calc(50% - 20px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .photo {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center;">Responsive Cartoon Photo Gallery using Flex</h2>
+  <div class="gallery-container">
+    <div class="photo">
+      <img src="https://i.pinimg.com/originals/7b/52/30/7b5230d804bc6cda5d81610f0f4b60d3.jpg" alt="Tom & Jerry">
+    </div>
+    <div class="photo">
+      <img src="https://upload.wikimedia.org/wikipedia/en/f/f0/SpongeBob_SquarePants_character.svg" alt="SpongeBob">
+    </div>
+    <div class="photo">
+      <img src="https://upload.wikimedia.org/wikipedia/en/0/02/Pikachu_anime.png" alt="Pikachu">
+    </div>
+    <div class="photo">
+      <img src="https://upload.wikimedia.org/wikipedia/en/5/59/Doraemon_character.png" alt="Doraemon">
+    </div>
+    <div class="photo">
+      <img src="https://upload.wikimedia.org/wikipedia/en/thumb/2/2c/Chhota_Bheem_Character.png/330px-Chhota_Bheem_Character.png" alt="Chhota Bheem">
+    </div>
+    <div class="photo">
+      <img src="https://upload.wikimedia.org/wikipedia/en/0/0a/Shinchan_Nohara.png" alt="Shinchan">
+    </div>
+    <div class="photo">
+      <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/0e/Mickey_Mouse.png/220px-Mickey_Mouse.png" alt="Mickey Mouse">
+    </div>
+    <div class="photo">
+      <img src="https://upload.wikimedia.org/wikipedia/en/thumb/3/3e/Bugs_Bunny.svg/220px-Bugs_Bunny.svg.png" alt="Bugs Bunny">
+    </div>
+  </div>
+</body>
+</html>

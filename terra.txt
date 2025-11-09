@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Fertilizer Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+        .page-content {
+            height: calc(100vh - 80px); /* Full height minus header */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .page-overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            border-radius: 1rem;
+            padding: 2rem;
+            color: white;
+            max-width: 90%;
+            margin-top: 5rem;
+        }
+        .nav-link.active {
+            @apply bg-green-700 text-white;
+        }
+        .hidden-page {
+            display: none;
+        }
+        .visible-page {
+            display: flex;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+    <!-- Navigation Header -->
+    <header class="bg-white shadow-lg fixed top-0 left-0 right-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row justify-between items-center">
+            <div class="flex items-center space-x-2 text-2xl font-bold text-green-800">
+                <!-- Simple Leaf Logo SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-600" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M12 21.35c-5.83-5.59-8.33-10.03-8.33-13.88 0-3.33 2.67-6 6-6 1.83 0 3.5.83 4.5 2.17 1-1.34 2.67-2.17 4.5-2.17 3.33 0 6 2.67 6 6 0 3.85-2.5 8.29-8.33 13.88a1 1 0 0 1-1.34 0z" clip-rule="evenodd" />
+                    <path fill="#4CAF50" d="M12 21.35c-5.83-5.59-8.33-10.03-8.33-13.88 0-3.33 2.67-6 6-6 1.83 0 3.5.83 4.5 2.17 1-1.34 2.67-2.17 4.5-2.17 3.33 0 6 2.67 6 6 0 3.85-2.5 8.29-8.33 13.88a1 1 0 0 1-1.34 0z" />
+                </svg>
+                <span>TerraGrow Solutions</span>
+            </div>
+            <div id="nav-links" class="flex flex-wrap justify-center sm:justify-end gap-2 mt-2 sm:mt-0 text-sm md:text-base">
+                <button data-page="home" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Home</button>
+                <button data-page="products" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Products</button>
+                <button data-page="organic" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Organic</button>
+                <button data-page="soil-health" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Soil Health</button>
+                <button data-page="contact" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Contact Us</button>
+                <button data-page="faq" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">FAQ</button>
+                <button data-page="about" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">About Us</button>
+                <button data-page="blog" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Blog</button>
+                <button data-page="delivery" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Delivery</button>
+                <button data-page="sustainability" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Sustainability</button>
+                <button data-page="careers" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Careers</button>
+                <button data-page="testimonials" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Testimonials</button>
+                <button data-page="resources" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Resources</button>
+                <button data-page="wholesale" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Wholesale</button>
+                <button data-page="privacy" class="nav-link px-4 py-2 rounded-lg transition-colors hover:bg-green-600 hover:text-white">Privacy</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Pages -->
+    <main class="flex-grow pt-20">
+        <!-- Page 1: Home -->
+        <section id="home-page" class="page-content visible-page" style="background-image: url('https://placehold.co/1920x1080/4CAF50/FFFFFF?text=Lush+Fields');">
+            <div class="page-overlay">
+                <h1 class="text-5xl md:text-7xl font-bold mb-4">Welcome to TerraGrow Solutions</h1>
+                <p class="text-xl md:text-2xl">Your partner in sustainable agriculture and thriving gardens.</p>
+            </div>
+        </section>
+
+        <!-- Page 2: Products -->
+        <section id="products-page" class="page-content hidden-page" style="background-image: url('https://placehold.co/1920x1080/8BC34A/000000?text=Fertilizer+Bags');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Our Products</h2>
+                <p class="text-lg md:text-xl">Explore our wide range of fertilizers for every need, from nitrogen-rich to balanced blends.</p>
+            </div>
+        </section>
+
+        <!-- Page 3: Organic -->
+        <section id="organic-page" class="page-content hidden-page" style="background-image: url('https://placehold.co/1920x1080/CDDC39/000000?text=Organic+Compost');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Organic Solutions</h2>
+                <p class="text-lg md:text-xl">Discover our eco-friendly, all-natural fertilizers that enrich the soil and protect the environment.</p>
+            </div>
+        </section>
+
+        <!-- Page 4: Soil Health -->
+        <section id="soil-health-page" class="page-content hidden-page" style="background-image: url('https://placehold.co/1920x1080/A1887F/FFFFFF?text=Healthy+Soil');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Boost Soil Health</h2>
+                <p class="text-lg md:text-xl">Learn about the importance of soil vitality and how our products can help your crops flourish.</p>
+            </div>
+        </section>
+
+        <!-- Page 5: Contact -->
+        <section id="contact-page" class="page-content hidden-page" style="background-image: url('https://placehold.co/1920x1080/FFC107/000000?text=Customer+Support');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Get in Touch</h2>
+                <p class="text-lg md:text-xl">Have a question? Our team is ready to provide expert advice and support.</p>
+            </div>
+        </section>
+
+        <!-- Page 6: FAQ -->
+        <section id="faq-page" class="page-content hidden-page" style="background-image: url('https://placehold.co/1920x1080/FF9800/FFFFFF?text=Question+Mark');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Frequently Asked Questions</h2>
+                <p class="text-lg md:text-xl">Find answers to common questions about our products, ordering, and delivery.</p>
+            </div>
+        </section>
+        
+        <!-- Page 7: About Us -->
+        <section id="about-page" class="page-content hidden-page" style="background-image: url('https://placehold.co/1920x1080/FF5722/FFFFFF?text=Green+Team');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Our Story</h2>
+                <p class="text-lg md:text-xl">Dedicated to providing high-quality fertilizers and building a sustainable future for agriculture.</p>
+            </div>
+        </section>
+
+        <!-- Page 8: Blog -->
+        <section id="blog-page" class="page-content hidden-page" style="background-image: url('https://placehold.co/1920x1080/9C27B0/FFFFFF?text=Farming+Blog');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Latest Insights</h2>
+                <p class="text-lg md:text-xl">Read our blog for tips, guides, and the latest news in farming and gardening.</p>
+            </div>
+        </section>
+        
+        <!-- Page 9: Delivery -->
+        <section id="delivery-page" class="page-content hidden-page" style="background-image: url('https://placehold.co/1920x1080/3F51B5/FFFFFF?text=Fast+Shipping');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Shipping & Delivery</h2>
+                <p class="text-lg md:text-xl">Fast and reliable delivery options to get your products to you when you need them.</p>
+            </div>
+        </section>
+
+        <!-- Page 10: Sustainability -->
+        <section id="sustainability-page" class="page-content hidden-page" style="background-image: url('https://placehold.co/1920x1080/2196F3/FFFFFF?text=Eco-Friendly+Farming');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Our Commitment to Earth</h2>
+                <p class="text-lg md:text-xl">We are committed to sustainable practices that benefit both the farmer and the planet.</p>
+            </div>
+        </section>
+
+        <!-- Page 11: Careers -->
+        <section id="careers-page" class="page-content hidden-page" style="background-image: url('https://placehold.co/1920x1080/03A9F4/000000?text=Career+Path');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Join Our Team</h2>
+                <p class="text-lg md:text-xl">Explore career opportunities and become part of our growing team.</p>
+            </div>
+        </section>
+
+        <!-- Page 12: Testimonials -->
+        <section id="testimonials-page" class="page-content hidden-page" style="background-image: url('https://placehold.co/1920x1080/00BCD4/000000?text=Happy+Farmers');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">What Our Customers Say</h2>
+                <p class="text-lg md:text-xl">Read success stories from farmers and gardeners who trust our products.</p>
+            </div>
+        </section>
+        
+        <!-- Page 13: Resources -->
+        <section id="resources-page" class="page-content hidden-page" style="background-image: url('https://placehold.co/1920x1080/009688/FFFFFF?text=Farming+Resources');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Helpful Resources</h2>
+                <p class="text-lg md:text-xl">Access guides, videos, and tools to help you get the best results from your crops.</p>
+            </div>
+        </section>
+
+        <!-- Page 14: Wholesale -->
+        <section id="wholesale-page" class="page-content hidden-page" style="background-image: url('https://placehold.co/1920x1080/4CAF50/FFFFFF?text=Bulk+Orders');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Wholesale Solutions</h2>
+                <p class="text-lg md:text-xl">Interested in bulk ordering? Contact us for special pricing and business accounts.</p>
+            </div>
+        </section>
+
+        <!-- Page 15: Privacy -->
+        <section id="privacy-page" class="page-content hidden-page" style="background-image: url('https://placehold.co/1920x1080/673AB7/FFFFFF?text=Secure+Data');">
+            <div class="page-overlay">
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Privacy Policy</h2>
+                <p class="text-lg md:text-xl">Your privacy is important to us. Learn how we protect your information.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page-content');
+            
+            // Function to show the selected page
+            const showPage = (pageId) => {
+                // Hide all pages
+                pages.forEach(page => {
+                    page.classList.remove('visible-page');
+                    page.classList.add('hidden-page');
+                });
+                
+                // Show the target page
+                const targetPage = document.getElementById(pageId + '-page');
+                if (targetPage) {
+                    targetPage.classList.remove('hidden-page');
+                    targetPage.classList.add('visible-page');
+                }
+                
+                // Update active link
+                navLinks.forEach(link => {
+                    if (link.dataset.page === pageId) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            };
+
+            // Add click listeners to navigation links
+            navLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    const pageId = event.target.dataset.page;
+                    showPage(pageId);
+                });
+            });
+
+            // Show the initial page
+            showPage('home');
+        });
+    </script>
+</body>
+</html>
