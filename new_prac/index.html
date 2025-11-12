@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My College</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      scroll-behavior: smooth;
+    }
+
+    section {
+      padding: 60px 0;
+    }
+
+    .navbar {
+      background-color: #111;
+    }
+
+    .navbar a {
+      color: #fff !important;
+    }
+
+    .course-card {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      transition: 0.3s;
+    }
+
+    .course-card:hover {
+      background-color: #f8f9fa;
+      transform: translateY(-5px);
+    }
+
+    footer {
+      background-color: #111;
+      color: white;
+      padding: 15px 0;
+      text-align: center;
+    }
+
+    .gallery,
+    .recruiters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .gallery div,
+    .recruiters div {
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      padding: 20px;
+      width: 200px;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">Marwadi University</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="#vision">Vision</a></li>
+          <li class="nav-item"><a class="nav-link" href="#mission">Mission</a></li>
+          <li class="nav-item"><a class="nav-link" href="#psos">PSOs</a></li>
+          <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
+          <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link" href="#recruiters">Recruiters</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Vision -->
+  <section id="vision" class="text-center bg-light">
+    <div class="container">
+      <h2 class="fw-bold mb-3">Vision</h2>
+      <p>To impart quality technical education through research, innovation and teamwork to create professionally
+        superior and ethically strong manpower.</p>
+    </div>
+  </section>
+
+  <!-- Mission -->
+  <section id="mission" class="text-center">
+    <div class="container">
+      <h2 class="fw-bold mb-4">Mission</h2>
+      <ul class="list-unstyled">
+        <li>Provide ICT enabled teaching and learning environment.</li>
+        <li>Enable students to become digital age literates and professionals.</li>
+        <li>Provide knowledge and skills to succeed as engineers and entrepreneurs.</li>
+        <li>Prepare graduates for lifelong learning and ethical challenges.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PSOs -->
+  <section id="psos" class="bg-light text-center">
+    <div class="container">
+      <h2 class="fw-bold mb-4">Program Specific Outcomes (PSOs)</h2>
+      <ul class="list-unstyled">
+        <li>PSO1: Demonstrate skills and competence in the analysis, design and development of computer-based systems
+          addressing industrial and social issues.</li>
+        <li>PSO2: Tackle future technological challenges in areas like security, AR, IoT, etc.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Courses -->
+  <section id="courses" class="text-center">
+    <div class="container">
+      <h2 class="fw-bold mb-4">Courses Offered</h2>
+      <div class="row justify-content-center g-3">
+        <div class="col-md-3 col-sm-6"><div class="course-card">B.Tech - CE</div></div>
+        <div class="col-md-3 col-sm-6"><div class="course-card">B.Tech - CSE - AI/ML</div></div>
+        <div class="col-md-3 col-sm-6"><div class="course-card">M.Tech - Cyber Security</div></div>
+        <div class="col-md-3 col-sm-6"><div class="course-card">PhD - Computer Engineering</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section id="gallery" class="bg-light text-center">
+    <div class="container">
+      <h2 class="fw-bold mb-4">Image Gallery of Events</h2>
+      <div class="gallery">
+        <div>MU' Fest</div>
+        <div>Garbotsav</div>
+        <div>Hackathon</div>
+        <div>Engineer's Day</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recruiters -->
+  <section id="recruiters" class="text-center">
+    <div class="container">
+      <h2 class="fw-bold mb-4">Top Recruiters</h2>
+      <div class="recruiters">
+        <div>TCS</div>
+        <div>Amazon</div>
+        <div>Zomato</div>
+        <div>Samsung</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Marwadi University. All rights reserved.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
