@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KrushakCart | Admin Panel</title>
+
+<!-- Internal CSS -->
+<style>
+:root{
+  --green:#2f9e44;
+  --green-dark:#1f7a32;
+  --bg:#f6f8f6;
+  --card:#fff;
+  --muted:#6b7280;
+  font-family:"Segoe UI",Roboto,system-ui;
+}
+body{margin:0;background:var(--bg);color:#111;display:flex;min-height:100vh;}
+.sidebar{
+  width:220px;background:var(--card);padding:20px;display:flex;flex-direction:column;
+  border-right:1px solid #ddd;
+}
+.logo{font-size:20px;font-weight:800;color:var(--green-dark);text-decoration:none;}
+.slogo{font-size:12px;color:var(--muted);margin-bottom:15px;}
+.nav-btn{border:0;background:none;padding:10px;text-align:left;cursor:pointer;
+  font-weight:600;border-radius:8px;margin-bottom:5px;display:flex;align-items:center;gap:8px;}
+.nav-btn:hover,.nav-btn.active{background:rgba(47,158,68,0.1);color:var(--green-dark);}
+.main{flex:1;display:flex;flex-direction:column;padding:20px;gap:10px;}
+.topbar{display:flex;justify-content:space-between;align-items:center;}
+.search input{padding:8px 12px;border-radius:20px;border:1px solid #ccc;}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;}
+.card{background:var(--card);border-radius:10px;padding:15px;box-shadow:0 3px 6px rgba(0,0,0,0.05);}
+.card-title{font-size:13px;color:var(--muted);}
+.card-value{font-size:22px;font-weight:700;color:var(--green-dark);}
+.section{display:none;}
+.section.active{display:block;}
+.table-wrap{background:var(--card);border-radius:10px;padding:10px;box-shadow:0 3px 6px rgba(0,0,0,0.05);}
+table{width:100%;border-collapse:collapse;}
+th,td{padding:8px;border-bottom:1px solid #eee;text-align:left;}
+th{color:var(--muted);font-size:13px;}
+td img{width:50px;height:40px;object-fit:cover;border-radius:5px;}
+.btn{padding:6px 10px;border:0;border-radius:6px;cursor:pointer;}
+.primary{background:var(--green);color:#fff;}
+.edit{background:#1d4ed8;color:#fff;}
+.delete{background:#dc2626;color:#fff;}
+.modal{position:fixed;top:0;left:0;right:0;bottom:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.4);}
+.modal.active{display:flex;}
+.modal-card{background:#fff;padding:20px;border-radius:10px;width:90%;max-width:400px;}
+.modal-card input,textarea{width:100%;padding:8px;margin:5px 0 10px;border-radius:6px;border:1px solid #ccc;}
+.footer{text-align:center;margin-top:auto;padding:10px;color:var(--muted);}
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+  <div class="sidebar">
+    <a href="index.html" class="logo">KrushakCart</a>
+    <p class="slogo">Putting Farmers First</p>
+    <button class="nav-btn active" data-section="dashboard"><i class="fa-solid fa-gauge"></i> Dashboard</button>
+    <button class="nav-btn" data-section="products"><i class="fa-solid fa-box-open"></i> Products</button>
+    <button class="nav-btn" data-section="users"><i class="fa-solid fa-users"></i> Users</button>
+    <button class="nav-btn" data-section="orders"><i class="fa-solid fa-receipt"></i> Orders</button>
+    <button class="nav-btn" data-section="logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <h2>Admin Dashboard</h2>
+      <div class="search"><input placeholder="Search..."></div>
+    </div>
+
+    <!-- Dashboard -->
+    <section id="dashboard" class="section active">
+      <div class="cards">
+        <div class="card"><div class="card-title">Total Products</div><div id="totalProducts" class="card-value">0</div></div>
+        <div class="card"><div class="card-title">Total Users</div><div id="totalUsers" class="card-value">0</div></div>
+        <div class="card"><div class="card-title">Total Orders</div><div id="totalOrders" class="card-value">0</div></div>
+      </div>
+    </section>
+
+    <!-- Products -->
+    <section id="products" class="section">
+      <h2>Products</h2>
+      <button id="addProductBtn" class="btn primary"><i class="fa-solid fa-plus"></i> Add Product</button>
+      <div class="table-wrap">
+        <table id="productTable">
+          <thead><tr><th>ID</th><th>Image</th><th>Name</th><th>Price</th><th>Stock</th><th>Action</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Users -->
+    <section id="users" class="section">
+      <h2>Users</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Joined</th></tr></thead>
+          <tbody id="userTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Orders -->
+    <section id="orders" class="section">
+      <h2>Orders</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Customer</th><th>Total</th><th>Status</th></tr></thead>
+          <tbody id="orderTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="footer">© 2024 KrushakCart Admin Panel</div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-card">
+      <h3 id="modalTitle">Add Product</h3>
+      <input type="hidden" id="pid">
+      <label>Name</label>
+      <input id="pname">
+      <label>Price</label>
+      <input type="number" id="pprice">
+      <label>Stock</label>
+      <input type="number" id="pstock">
+      <label>Image URL</label>
+      <input id="pimage">
+      <div style="text-align:right">
+        <button id="saveBtn" class="btn primary">Save</button>
+        <button id="cancelBtn" class="btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+<!-- Internal JS -->
+<script>
+const sections=document.querySelectorAll('.section');
+document.querySelectorAll('.nav-btn').forEach(btn=>{
+ btn.onclick=()=>{document.querySelector('.nav-btn.active').classList.remove('active');
+ btn.classList.add('active');
+ sections.forEach(s=>s.classList.toggle('active',s.id===btn.dataset.section));}
+});
+
+let products=[
+ {id:1,name:"Mini Tiller",price:12500,stock:8,img:"assets/images/brand/honda.png"},
+ {id:2,name:"Seed Drill",price:22000,stock:5,img:"assets/images/brand/kisankraft.jpg"}
+];
+let users=[
+ {id:1,name:"Ramesh Patil",email:"ramesh@example.com",joined:"2024-10-12"},
+ {id:2,name:"Geeta Sharma",email:"geeta@example.com",joined:"2024-11-01"}
+];
+let orders=[
+ {id:101,customer:"Ramesh Patil",total:12500,status:"Pending"},
+ {id:102,customer:"Geeta Sharma",total:22000,status:"Delivered"}
+];
+
+const productTable=document.querySelector('#productTable tbody');
+const userTable=document.querySelector('#userTable');
+const orderTable=document.querySelector('#orderTable');
+const totalProducts=document.querySelector('#totalProducts');
+const totalUsers=document.querySelector('#totalUsers');
+const totalOrders=document.querySelector('#totalOrders');
+
+function renderStats(){
+ totalProducts.textContent=products.length;
+ totalUsers.textContent=users.length;
+ totalOrders.textContent=orders.length;
+}
+function renderProducts(){
+ productTable.innerHTML='';
+ products.forEach(p=>{
+   let tr=document.createElement('tr');
+   tr.innerHTML=`<td>${p.id}</td>
+     <td><img src="${p.img}" alt=""></td>
+     <td>${p.name}</td>
+     <td>₹${p.price}</td>
+     <td>${p.stock}</td>
+     <td>
+       <button class='btn edit' onclick='editProduct(${p.id})'>Edit</button>
+       <button class='btn delete' onclick='deleteProduct(${p.id})'>Delete</button>
+     </td>`;
+   productTable.appendChild(tr);
+ });
+}
+function renderUsers(){
+ users.forEach(u=>{
+   let tr=document.createElement('tr');
+   tr.innerHTML=`<td>${u.id}</td><td>${u.name}</td><td>${u.email}</td><td>${u.joined}</td>`;
+   userTable.appendChild(tr);
+ });
+}
+function renderOrders(){
+ orders.forEach(o=>{
+   let tr=document.createElement('tr');
+   tr.innerHTML=`<td>${o.id}</td><td>${o.customer}</td><td>₹${o.total}</td><td>${o.status}</td>`;
+   orderTable.appendChild(tr);
+ });
+}
+
+// Modal Logic
+const modal=document.getElementById('modal');
+const saveBtn=document.getElementById('saveBtn');
+const cancelBtn=document.getElementById('cancelBtn');
+const addProductBtn=document.getElementById('addProductBtn');
+const pid=document.getElementById('pid');
+const pname=document.getElementById('pname');
+const pprice=document.getElementById('pprice');
+const pstock=document.getElementById('pstock');
+const pimage=document.getElementById('pimage');
+const modalTitle=document.getElementById('modalTitle');
+
+addProductBtn.onclick=()=>{modal.classList.add('active');modalTitle.textContent="Add Product";pid.value='';pname.value='';pprice.value='';pstock.value='';pimage.value='';}
+cancelBtn.onclick=()=>modal.classList.remove('active');
+
+saveBtn.onclick=()=>{
+ let id=pid.value?parseInt(pid.value):Date.now();
+ let newP={id,name:pname.value,price:parseFloat(pprice.value),stock:parseInt(pstock.value),img:pimage.value||"assets/images/brand/honda.png"};
+ if(pid.value){ // edit
+   let idx=products.findIndex(x=>x.id===id);
+   if(idx>-1)products[idx]=newP;
+ }else{products.push(newP);}
+ modal.classList.remove('active');
+ renderProducts();renderStats();
+}
+
+window.editProduct=(id)=>{
+ let p=products.find(x=>x.id===id);
+ if(!p)return;
+ modal.classList.add('active');
+ modalTitle.textContent="Edit Product";
+ pid.value=p.id;pname.value=p.name;pprice.value=p.price;pstock.value=p.stock;pimage.value=p.img;
+}
+
+window.deleteProduct=(id)=>{
+ if(confirm("Delete product?")){
+  products=products.filter(p=>p.id!==id);
+  renderProducts();renderStats();
+ }
+}
+
+// Init
+renderProducts();
+renderUsers();
+renderOrders();
+renderStats();
+</script>
+</body>
+</html>

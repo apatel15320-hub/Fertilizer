@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Form</title>
+    <style>
+        /* Basic styling to match the look in the image */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to the top of the viewport */
+            padding-top: 50px;
+            margin: 0;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 8px 10px;
+            background-color: #f7f7f7;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8em;
+            color: #777;
+            margin-bottom: 3px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group input[type="tel"] {
+            width: 100%;
+            padding: 0;
+            border: none;
+            background: none;
+            box-sizing: border-box;
+            font-size: 1em;
+            outline: none;
+            color: #333;
+        }
+
+        /* Specific style for Gender and Branch which use different controls */
+        .form-group.gender-group, .form-group.branch-group {
+            padding: 10px;
+            background-color: white; /* Contrast from input fields */
+            border: none;
+            box-shadow: none;
+            border-bottom: 1px solid #ddd;
+            border-radius: 0;
+            margin-top: 20px;
+        }
+        
+        .form-group.gender-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .gender-options, .branch-options {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 1em;
+        }
+        
+        .gender-options label, .branch-options label {
+            display: inline-flex;
+            align-items: center;
+            font-size: 1em;
+            color: #333;
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+
+        .gender-options input[type="radio"] {
+            margin-right: 5px;
+            margin-left: 0;
+        }
+        
+        .branch-options select {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            background-color: white;
+            font-size: 1em;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <div class="form-title">Student Registration Form</div>
+
+        <form action="#" method="POST">
+            <div class="form-group">
+                <label for="enrollment">Enrollment Number</label>
+                <input type="text" id="enrollment" name="enrollment" value="92400103291">
+            </div>
+
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" value="Anushka Patel">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email ID</label>
+                <input type="email" id="email" name="email" value="anushkapatel@marwadiuniversity.ac.in">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" value="********">
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" value="********">
+            </div>
+
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" value="924002364">
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" value="W/O K.S.K., NC 3 BN, 96009, PETROL, PRAP">
+            </div>
+            
+            <div class="form-group gender-group">
+                <label>Gender</label>
+                <div class="gender-options">
+                    <label><input type="radio" name="gender" value="male"> Male</label>
+                    <label><input type="radio" name="gender" value="female" checked> Female</label>
+                    <label><input type="radio" name="gender" value="other"> Other</label>
+                </div>
+            </div>
+
+            <div class="form-group branch-group">
+                <label>Branch</label>
+                <div class="branch-options">
+                    <select name="branch" id="branch">
+                        <option value="computer-science" selected>Computer Science</option>
+                        <option value="mechanical">Mechanical</option>
+                        <option value="civil">Civil</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit</button>
+        </form>
+    </div>
+
+</body>
+</html>
